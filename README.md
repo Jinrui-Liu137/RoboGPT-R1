@@ -13,7 +13,9 @@
 
 
 ## Overviwe
-> Coming Soon...
+![An overview of RoboGPT-R1.](./main3_01.png)
+
+
 ## Training
 > Coming Soon...
 ## Model
