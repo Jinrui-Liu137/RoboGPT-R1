@@ -5,20 +5,21 @@
     <img alt="arXiv" src="https://img.shields.io/badge/arXiv-2510.14828-b31b1b.svg">
   </a>
   <!-- Hugging Face 徽章，准备好后把 href 和文字改掉 -->
-  <a href="https://huggingface.co/<your-org>/<your-repo>" style="margin-left:8px;">
+  <a href="https://huggingface.co/Jinrui137/RoboGPT-R1" style="margin-left:8px;">
     <img alt="Hugging Face" src="https://img.shields.io/badge/Hugging%20Face-coming%20soon-yellow">
   </a>
 </p>
 
 
 
-## Overviwe
+## Overview
 ![An overview of RoboGPT-R1.](./main3_01.png)
 
 
 ## Training
 > Coming Soon...
 ## Model
-> Coming Soon...
+- **🤗 [Model page (Hugging Face)](https://huggingface.co/Jinrui137/RoboGPT-R1)**
+
 ## Dataset
 > Coming Soon...
