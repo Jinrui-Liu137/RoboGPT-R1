@@ -4,9 +4,8 @@
   <a href="https://arxiv.org/abs/2510.14828">
     <img alt="arXiv" src="https://img.shields.io/badge/arXiv-2510.14828-b31b1b.svg">
   </a>
-  <!-- Update the Hugging Face link and label when the release is available. -->
   <a href="https://huggingface.co/Jinrui137/RoboGPT-R1" style="margin-left:8px;">
-    <img alt="Hugging Face" src="https://img.shields.io/badge/Hugging%20Face-coming%20soon-yellow">
+    <img alt="Hugging Face Model" src="https://img.shields.io/badge/Hugging%20Face-Model-yellow?logo=huggingface">
   </a>
 </p>
 
@@ -130,6 +129,3 @@ bash /workspace/Codes/RoboGPT-R1/RFT/rft_no_example_NV.sh
 
 ## Model
 - **🤗 [Model page (Hugging Face)](https://huggingface.co/Jinrui137/RoboGPT-R1)**
-
-## Dataset
-> Coming soon...
