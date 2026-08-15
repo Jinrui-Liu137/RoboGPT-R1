@@ -1,0 +1,33 @@
+diff --git a/verl/workers/reward/function.py b/verl/workers/reward/function.py
+index 583be6e..b6b3f77 100644
+--- a/verl/workers/reward/function.py
++++ b/verl/workers/reward/function.py
+@@ -84,13 +84,21 @@ class BatchFunctionRewardManagerMixin:
+             response_str = self.tokenizer.decode(
+                 valid_response_ids, skip_special_tokens=self.config.skip_special_tokens
+             )
+-            reward_inputs.append(
+-                {
+-                    "response": response_str,
+-                    "response_length": cur_response_length,
+-                    "ground_truth": data.non_tensor_batch["ground_truth"][i],
+-                }
+-            )
++            reward_input = {
++                "response": response_str,
++                "response_length": cur_response_length,
++                "ground_truth": data.non_tensor_batch["ground_truth"][i],
++            }
++
++            # Pass the sample's original prompt to custom reward functions.
++            if "reward_model" in data.non_tensor_batch:
++                reward_model = data.non_tensor_batch["reward_model"][i]
++                reward_input["content"] = reward_model.get("content", "")
++            else:
++                print(f"Warning: sample #{i} has no reward_model; content is empty.")
++                reward_input["content"] = ""
++
++            reward_inputs.append(reward_input)
+ 
+         scores = self.reward_fn(reward_inputs)
+         reward_tensor = torch.zeros_like(data.batch["responses"], dtype=torch.float32)

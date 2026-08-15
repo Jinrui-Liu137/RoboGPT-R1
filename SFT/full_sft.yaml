@@ -20,7 +20,7 @@ ddp_timeout: 180000000
 ### dataset
 dataset_dir: /workspace/Codes/RoboGPT-R1/dataset_JSON
 dataset: alfPlan-0_shot
-media_dir: /workspace/Datasets/alfPlan/medias
+media_dir: /workspace/Datasets/RoboGPT-R1/
 template: qwen2_vl 
 cutoff_len: 9018
 max_samples: 10000
@@ -29,10 +29,10 @@ preprocessing_num_workers: 64
 dataloader_num_workers: 8
 
 ### output
-output_dir: /workspace/Experients/RoboGPT-R1/exp0--only_sft/weight1
+output_dir: /workspace/Experiments/RoboGPT-R1/exp0--only_sft/weight1
 logging_steps: 10
-save_steps: 100                 # 要是eval_steps的整数倍
-load_best_model_at_end: true    # load the best model when training ends
+save_steps: 100                 # an integer multiple of `eval_steps`
+load_best_model_at_end: true   
 # save_total_limit: 1           # only keep one checkpoint(if not the best) in the output directory
 plot_loss: true
 overwrite_output_dir: true

@@ -1,0 +1,111 @@
+data:
+  train_files: /workspace/Codes/RoboGPT-R1/dataset_PARQUET/train.parquet
+  val_files:   /workspace/Codes/RoboGPT-R1/dataset_PARQUET/test.parquet
+
+  prompt_key: content                 # ← the plain-text field we just added
+  answer_key: ground_truth            # ← nested path; flatten GT to ground_truth if unsupported
+  image_key: images
+  video_key: videos
+  image_dir: /workspace/Datasets/RoboGPT-R1/
+
+  max_prompt_length: 6144
+  max_response_length: 3072               # Structured JSON is usually longer, so allocate more space.
+  rollout_batch_size: 512                 # Must be a multiple of the GPU count.
+  mini_rollout_batch_size: null
+  val_batch_size: 1024                    # Must be a multiple of the GPU count.
+
+
+  format_prompt: /workspace/Codes/EasyR1/examples/format_prompt/rft_no_example.jinja
+  override_chat_template: null
+
+  shuffle: true
+  seed: 1
+  min_pixels: 400
+  max_pixels: 4194304
+  filter_overlong_prompts: true
+
+algorithm:
+  adv_estimator: grpo
+  disable_kl: false
+  use_kl_loss: true
+  kl_penalty: low_var_kl
+  kl_coef: 1.0e-2
+  online_filtering: false
+  filter_key: overall
+  filter_low: 0.01
+  filter_high: 0.99
+
+worker:
+  actor:
+    global_batch_size: 128
+    micro_batch_size_per_device_for_update: 1
+    micro_batch_size_per_device_for_experience: 2
+    max_grad_norm: 1.0
+    padding_free: true
+    dynamic_batching: true
+    ulysses_size: 1
+    model:
+      model_path: /workspace/Experiments/RoboGPT-R1/exp0--only_sft/weight1  # Or the path to your local weights.
+      enable_gradient_checkpointing: true
+      trust_remote_code: false
+      freeze_vision_tower: false
+    optim:
+      lr: 1.0e-6
+      weight_decay: 1.0e-2
+      strategy: adamw
+      lr_warmup_ratio: 0.0
+    fsdp:
+      enable_full_shard: true
+      enable_cpu_offload: false
+      enable_rank0_init: true
+    offload:
+      offload_params: true
+      offload_optimizer: true
+
+  rollout:
+    max_num_batched_tokens: 12288                # Must be > 8192+3072=11264; leave some headroom.
+    n: 5
+    temperature: 1.0
+    top_p: 1.0
+    limit_images: 0
+    gpu_memory_utilization: 0.6
+    enforce_eager: false
+    enable_chunked_prefill: false
+    tensor_parallel_size: 4
+    disable_tqdm: false
+    val_override_config:
+      temperature: 0.6
+      top_p: 0.95
+      n: 1
+
+  ref:
+    fsdp:
+      enable_full_shard: true
+      enable_cpu_offload: true
+      enable_rank0_init: true
+    offload:
+      offload_params: false
+
+  reward:
+    reward_type: batch
+    reward_function: /workspace/Codes/EasyR1/examples/reward_function/LCS_reward.py:compute_score
+
+trainer:
+  total_epochs: 15
+  max_steps: null
+  project_name: easy_r1
+  experiment_name: exp1--sft+rft-lcs_reward
+  logger: ["console", "wandb"]
+  nnodes: 1
+  n_gpus_per_node: 4
+  max_try_make_batch: 20
+  val_freq: 5
+  val_before_train: true
+  val_only: false
+  val_generations_to_log: 3
+  save_freq: 5
+  save_limit: 5
+  save_model_only: false
+  save_checkpoint_path: /workspace/Experiments/RoboGPT-R1/exp1--sft+rft-lcs_reward/weight1
+  load_checkpoint_path: null
+  find_last_checkpoint: true
