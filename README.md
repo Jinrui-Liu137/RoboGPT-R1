@@ -51,7 +51,7 @@ Read and follow the installation instructions of each upstream repository, insta
 
 For EmbodiedBench, only install and verify **EB-ALFRED** and **EB-Habitat**. EB-Navigation and EB-Manipulation are not required. Follow the EmbodiedBench documentation to prepare its headless server, simulators, and task data.
 
-> RFT can also be implemented with [verl](https://github.com/volcengine/verl). The RFT configuration files in this repository use EasyR1 as the example implementation; adapting them for verl is your responsibility.
+> RFT can also be implemented with [verl](https://github.com/volcengine/verl). The configurations provided in this repository are based on EasyR1 and may need to be adapted when using verl.
 
 
 ### 2. Create separate Conda environments
